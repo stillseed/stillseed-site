@@ -190,25 +190,57 @@
       <div class="divider"></div>
       <p>Every journey starts with a single breath. Reach out and we will find the right path for you.</p>
     </div>
-    <div class="contact-methods">
+
+    <div style="max-width: 600px; margin: 0 auto;">
+      <form action="https://formspree.io/f/mgoqyeko" method="POST" style="text-align: left;">
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); margin-bottom: 0.5rem;">Name *</label>
+          <input type="text" name="name" required style="width: 100%; padding: 0.8rem; border: 1px solid #E8E0D4; background: var(--white); font-family: inherit; font-size: 1rem; color: var(--black);">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); margin-bottom: 0.5rem;">Email *</label>
+          <input type="email" name="email" required style="width: 100%; padding: 0.8rem; border: 1px solid #E8E0D4; background: var(--white); font-family: inherit; font-size: 1rem; color: var(--black);">
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); margin-bottom: 0.5rem;">Session Type *</label>
+          <select name="session" required style="width: 100%; padding: 0.8rem; border: 1px solid #E8E0D4; background: var(--white); font-family: inherit; font-size: 1rem; color: var(--black); cursor: pointer;">
+            <option value="">Select a session</option>
+            <option value="coffee">Mindful Coffee Brewing (90 min)</option>
+            <option value="private">Private Meditation Session (60 min)</option>
+            <option value="breathwork">Conscious Breathwork</option>
+            <option value="retreat">Weekend Retreat</option>
+            <option value="corporate">Corporate Wellness</option>
+            <option value="other">Other / Not Sure</option>
+          </select>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); margin-bottom: 0.5rem;">Message</label>
+          <textarea name="message" rows="4" placeholder="Tell us about your goals or any questions..." style="width: 100%; padding: 0.8rem; border: 1px solid #E8E0D4; background: var(--white); font-family: inherit; font-size: 1rem; color: var(--black); resize: vertical;"></textarea>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+          <button type="submit" class="btn btn-filled" style="cursor: pointer; border: none;">Request a Session</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="contact-methods" style="margin-top: 3rem;">
       <div class="contact-method">
         <h4>Email</h4>
         <p>stillseedacademy@gmail.com</p>
-        <p style="font-size:0.85rem; margin-top:0.3rem;">For inquiries and bookings</p>
       </div>
       <div class="contact-method">
         <h4>Instagram</h4>
         <p><a href="https://instagram.com/stillseedacademy" target="_blank" style="color:var(--burgundy);">@stillseedacademy</a></p>
-        <p style="font-size:0.85rem; margin-top:0.3rem;">Daily mindfulness & behind the scenes</p>
       </div>
       <div class="contact-method">
         <h4>Location</h4>
-        <p>Klang Valley, Selangor</p>
-        <p style="font-size:0.85rem; margin-top:0.3rem;">In-person & online sessions</p>
+        <p>Klang Valley</p>
+        <p style="font-size:0.85rem; margin-top:0.3rem;">In-person & online</p>
       </div>
-    </div>
-    <div style="margin-top:2rem;">
-      <a href="mailto:stillseedacademy@gmail.com" class="btn btn-filled">Send an Email</a>
     </div>
   </section>
 
