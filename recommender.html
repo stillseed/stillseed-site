@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Your Practice — Stillseed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --burgundy: #8B1A1A;
+      --black: #1a1a1a;
+      --cream: #F5F0E8;
+      --gold: #C9A96E;
+      --gray: #6b6b6b;
+      --white: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background: var(--cream);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .container {
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+    }
+    h1 {
+      font-weight: 300;
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 2px;
+    }
+    .subtitle {
+      color: var(--gray);
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+      font-style: italic;
+    }
+    .step {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+    .step.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .question {
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
+      font-weight: 400;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .option {
+      padding: 1.2rem 2rem;
+      border: 1.5px solid #E8E0D4;
+      background: var(--white);
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: inherit;
+      font-size: 1.1rem;
+      color: var(--black);
+      text-align: left;
+    }
+    .option:hover {
+      border-color: var(--burgundy);
+      background: var(--cream);
+    }
+    .option.selected {
+      border-color: var(--burgundy);
+      background: var(--burgundy);
+      color: var(--cream);
+    }
+    .progress {
+      width: 100%;
+      height: 2px;
+      background: #E8E0D4;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    .progress-bar {
+      height: 100%;
+      background: var(--burgundy);
+      transition: width 0.5s ease;
+    }
+    .result {
+      background: var(--white);
+      padding: 3rem 2rem;
+      border: 1px solid #E8E0D4;
+      text-align: center;
+    }
+    .result-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    .result h2 {
+      color: var(--burgundy);
+      margin-bottom: 1rem;
+    }
+    .result p {
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+    }
+    .result .btn {
+      margin-top: 1rem;
+    }
+    .back {
+      margin-top: 2rem;
+      color: var(--gray);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+    .back:hover { color: var(--burgundy); }
+    .nav-logo {
+      position: absolute;
+      top: 1.5rem;
+      left: 5%;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .nav-logo img {
+      height: 35px;
+      width: auto;
+    }
+    .nav-logo span {
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.9rem 2.2rem;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: 1.5px solid var(--burgundy);
+      color: var(--burgundy);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: inherit;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background: var(--burgundy);
+      color: var(--cream);
+    }
+    .btn-filled {
+      background: var(--burgundy);
+      color: var(--cream);
+    }
+    .btn-filled:hover {
+      background: var(--black);
+      border-color: var(--black);
+    }
+    @media (max-width: 480px) {
+      h1 { font-size: 1.8rem; }
+      .question { font-size: 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="nav-logo">
+    <img src="images/logo-nav.png" alt="Stillseed">
+    <span>Stillseed</span>
+  </a>
+
+  <div class="container">
+    <h1>Find Your Practice</h1>
+    <p class="subtitle">Three questions. One path.</p>
+
+    <div class="progress">
+      <div class="progress-bar" id="progressBar" style="width: 0%;"></div>
+    </div>
+
+    <!-- Step 1: Time -->
+    <div class="step active" id="step1">
+      <p class="question">How much time do you have?</p>
+      <div class="options">
+        <button class="option" onclick="selectOption(1, 'short')">20 minutes — a brief reset</button>
+        <button class="option" onclick="selectOption(1, 'medium')">60–90 minutes — a full session</button>
+        <button class="option" onclick="selectOption(1, 'long')">A full day or more — deep immersion</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Goal -->
+    <div class="step" id="step2">
+      <p class="question">What brings you here?</p>
+      <div class="options">
+        <button class="option" onclick="selectOption(2, 'stress')">I need to reduce stress and anxiety</button>
+        <button class="option" onclick="selectOption(2, 'focus')">I want to improve focus and clarity</button>
+        <button class="option" onclick="selectOption(2, 'depth')">I seek deeper spiritual understanding</button>
+        <button class="option" onclick="selectOption(2, 'team')">I want this for my team or organization</button>
+      </div>
+      <button class="back" onclick="goBack(1)">← Back</button>
+    </div>
+
+    <!-- Step 3: Format -->
+    <div class="step" id="step3">
+      <p class="question">Do you prefer individual or group practice?</p>
+      <div class="options">
+        <button class="option" onclick="selectOption(3, 'individual')">Individual — just me and the teacher</button>
+        <button class="option" onclick="selectOption(3, 'group')">Small group — shared energy</button>
+        <button class="option" onclick="selectOption(3, 'either')">Either works</button>
+      </div>
+      <button class="back" onclick="goBack(2)">← Back</button>
+    </div>
+
+    <!-- Result -->
+    <div class="step" id="result">
+      <div class="result">
+        <div class="result-icon" id="resultIcon">🌿</div>
+        <h2 id="resultTitle">Your Practice</h2>
+        <p id="resultDesc">Description</p>
+        <p id="resultWhy" style="font-style: italic; color: var(--burgundy); margin-bottom: 1.5rem;">Why this fits you</p>
+        <a href="index.html#contact" class="btn btn-filled">Book This Session</a>
+      </div>
+      <button class="back" onclick="resetQuiz()" style="margin-top: 2rem;">← Start Over</button>
+    </div>
+  </div>
+
+  <script>
+    let answers = {};
+
+    function selectOption(step, value) {
+      answers[step] = value;
+
+      // Highlight selected
+      const options = document.querySelectorAll(`#step${step} .option`);
+      options.forEach(opt => opt.classList.remove('selected'));
+      event.target.classList.add('selected');
+
+      // Small delay for visual feedback
+      setTimeout(() => {
+        if (step < 3) {
+          showStep(step + 1);
+        } else {
+          showResult();
+        }
+      }, 300);
+    }
+
+    function showStep(stepNum) {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('step' + stepNum).classList.add('active');
+      document.getElementById('progressBar').style.width = ((stepNum - 1) / 3 * 100) + '%';
+    }
+
+    function goBack(stepNum) {
+      showStep(stepNum);
+      document.getElementById('progressBar').style.width = ((stepNum - 1) / 3 * 100) + '%';
+    }
+
+    function showResult() {
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById('result').classList.add('active');
+      document.getElementById('progressBar').style.width = '100%';
+
+      const result = calculateResult();
+      document.getElementById('resultIcon').textContent = result.icon;
+      document.getElementById('resultTitle').textContent = result.title;
+      document.getElementById('resultDesc').textContent = result.desc;
+      document.getElementById('resultWhy').textContent = result.why;
+    }
+
+    function calculateResult() {
+      const time = answers[1];
+      const goal = answers[2];
+      const format = answers[3];
+
+      // Logic tree
+      if (time === 'short') {
+        return {
+          icon: '🌬️',
+          title: 'Conscious Breathwork',
+          desc: 'A 20-minute guided session to regulate your nervous system and return to center. Perfect for busy days.',
+          why: 'You have limited time but need immediate relief. Breathwork is the fastest path to calm.'
+        };
+      }
+
+      if (goal === 'team') {
+        return {
+          icon: '🏢',
+          title: 'Corporate Wellness Program',
+          desc: 'Half-day or full-day mindfulness training for your team. Includes mindful coffee sessions, breathwork, and focus training.',
+          why: 'You understand that stillness is a team sport. Organizations thrive when individuals are grounded.'
+        };
+      }
+
+      if (time === 'long') {
+        return {
+          icon: '🧘',
+          title: 'Weekend Retreat',
+          desc: 'Two days of Shamatha and Vipassana meditation, breathwork, and mindful eating. Small group, maximum depth.',
+          why: 'You are ready to step away from noise and return to yourself. Depth requires time.'
+        };
+      }
+
+      if (goal === 'depth' && format === 'individual') {
+        return {
+          icon: '🔍',
+          title: 'Vipassana Meditation',
+          desc: 'One-on-one insight meditation for those with established concentration. Seeing clearly the nature of experience.',
+          why: 'You seek truth, not relaxation. Vipassana is the path of direct seeing.'
+        };
+      }
+
+      if (goal === 'focus') {
+        return {
+          icon: '🧘',
+          title: 'Shamatha Meditation',
+          desc: 'Classical calm abiding practice. Develop sustained attention and mental stability through focused breath meditation.',
+          why: 'Focus is the foundation of all practice. Shamatha trains the mind to stay where you place it.'
+        };
+      }
+
+      if (goal === 'stress' || goal === 'depth' || goal === 'focus') {
+        return {
+          icon: '☕',
+          title: 'Mindful Coffee Brewing',
+          desc: 'Our signature 90-minute session. Learn to treat every step of brewing as meditation — aroma, texture, temperature, taste.',
+          why: 'You want depth disguised as pleasure. The coffee ritual is a complete meditation in itself.'
+        };
+      }
+
+      // Default
+      return {
+        icon: '🌿',
+        title: 'Private Meditation Session',
+        desc: 'A personalized 60-minute session tailored to your goals. Breathwork, Shamatha, or guided inquiry.',
+        why: 'Every path is different. A private session meets you exactly where you are.'
+      };
+    }
+
+    function resetQuiz() {
+      answers = {};
+      document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+      showStep(1);
+      document.getElementById('progressBar').style.width = '0%';
+    }
+  </script>
+
+</body>
+</html>
