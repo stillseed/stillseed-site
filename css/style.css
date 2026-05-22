@@ -1,0 +1,468 @@
+
+:root {
+  --burgundy: #8B1A1A;
+  --black: #1a1a1a;
+  --cream: #F5F0E8;
+  --gold: #C9A96E;
+  --gray: #6b6b6b;
+  --white: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: var(--black);
+  background: var(--cream);
+  line-height: 1.7;
+  font-size: 18px;
+}
+
+h1, h2, h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+h2 { font-size: clamp(2rem, 4vw, 3rem); }
+h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+
+a { text-decoration: none; color: inherit; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* Navigation */
+nav {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 1rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(245, 240, 232, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.nav-logo img {
+  height: 40px;
+  width: auto;
+}
+
+.nav-logo span {
+  font-size: 1.2rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gray);
+  transition: color 0.3s;
+}
+
+.nav-links a:hover { color: var(--burgundy); }
+
+/* Hero */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 5% 4rem;
+  background: linear-gradient(180deg, var(--cream) 0%, #E8E0D4 100%);
+}
+
+.hero-content { max-width: 800px; }
+
+.hero-logo {
+  width: 160px;
+  margin: 0 auto 2rem;
+}
+
+.hero h1 { margin-bottom: 1rem; }
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--gray);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  color: var(--black);
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.9rem 2.2rem;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border: 1.5px solid var(--burgundy);
+  color: var(--burgundy);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+
+.btn:hover {
+  background: var(--burgundy);
+  color: var(--cream);
+}
+
+.btn-filled {
+  background: var(--burgundy);
+  color: var(--cream);
+  margin-right: 0.5rem;
+}
+
+.btn-filled:hover {
+  background: var(--black);
+  border-color: var(--black);
+}
+
+/* Sections */
+section { padding: 5rem 5%; }
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header h2 { margin-bottom: 0.5rem; }
+
+.divider {
+  width: 50px;
+  height: 1px;
+  background: var(--gold);
+  margin: 1rem auto;
+}
+
+.section-header p {
+  color: var(--gray);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Philosophy */
+.philosophy { background: var(--white); }
+
+.philosophy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.philosophy-text h3 {
+  color: var(--burgundy);
+  margin-bottom: 1rem;
+}
+
+.philosophy-text p {
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+.philosophy-image img {
+  width: 100%;
+  border-radius: 2px;
+  aspect-ratio: 4/5;
+  object-fit: cover;
+}
+
+/* Practices */
+.practices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.practice-card {
+  background: var(--white);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  border: 1px solid #E8E0D4;
+  transition: all 0.3s;
+}
+
+.practice-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+}
+
+.practice-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.practice-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+}
+
+.practice-card p {
+  font-size: 0.95rem;
+  color: var(--gray);
+}
+
+/* Coffee Section */
+.coffee-section {
+  background: var(--black);
+  color: var(--cream);
+  text-align: center;
+  position: relative;
+}
+
+.coffee-section h2 { color: var(--cream); }
+
+.coffee-section p {
+  color: #b0a898;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+}
+
+.coffee-section .btn {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.coffee-section .btn:hover {
+  background: var(--gold);
+  color: var(--black);
+}
+
+/* Retreats */
+.retreats { background: var(--white); }
+
+.retreat-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto 2rem;
+  padding: 2rem;
+  border: 1px solid #E8E0D4;
+}
+
+.retreat-info h3 {
+  color: var(--burgundy);
+  margin-bottom: 0.3rem;
+}
+
+.retreat-meta {
+  font-size: 0.8rem;
+  color: var(--gold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+.retreat-info p {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.retreat-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 200px;
+  border-radius: 2px;
+}
+
+/* Corporate */
+.corporate { background: #f0ece6; }
+
+.corporate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.corporate-features {
+  list-style: none;
+  margin-top: 1.5rem;
+}
+
+.corporate-features li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #E8E0D4;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.corporate-features li::before {
+  content: '✦';
+  color: var(--burgundy);
+}
+
+.corporate-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  min-height: 350px;
+  border-radius: 2px;
+}
+
+/* Teacher */
+.teacher { background: var(--white); }
+
+.teacher-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.teacher-image img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: 2px;
+}
+
+.teacher-info h3 {
+  color: var(--burgundy);
+  margin-bottom: 0.3rem;
+}
+
+.teacher-name {
+  font-size: 0.85rem;
+  color: var(--gray);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.teacher-info p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+/* Contact */
+.contact { background: var(--cream); text-align: center; }
+
+.contact-methods {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.contact-method {
+  padding: 1.5rem;
+  background: var(--white);
+  border: 1px solid #E8E0D4;
+  min-width: 250px;
+}
+
+.contact-method h4 {
+  color: var(--burgundy);
+  margin-bottom: 0.3rem;
+}
+
+.contact-method p {
+  color: var(--gray);
+  font-size: 0.95rem;
+}
+
+/* Timer CTA */
+.timer-cta {
+  background: var(--white);
+  text-align: center;
+  padding: 4rem 5%;
+}
+
+/* Footer */
+footer {
+  background: var(--black);
+  color: #b0a898;
+  padding: 3rem 5%;
+  text-align: center;
+}
+
+.footer-logo {
+  width: 80px;
+  margin: 0 auto 1rem;
+}
+
+footer p {
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+  list-style: none;
+}
+
+.footer-links a {
+  color: #b0a898;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover { color: var(--gold); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .philosophy-grid,
+  .retreat-card,
+  .corporate-grid,
+  .teacher-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links { display: none; }
+
+  .hero { padding: 5rem 5% 3rem; }
+
+  section { padding: 3rem 5%; }
+
+  .contact-methods { flex-direction: column; align-items: center; }
+}

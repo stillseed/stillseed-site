@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stillseed Meditation Timer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --burgundy: #8B1A1A;
+      --black: #1a1a1a;
+      --cream: #F5F0E8;
+      --gold: #C9A96E;
+      --gray: #6b6b6b;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background: var(--cream);
+      color: var(--black);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .container {
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+    }
+    h1 {
+      font-weight: 300;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 2px;
+    }
+    .subtitle {
+      color: var(--gray);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+    .durations {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .dur-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--gray);
+      background: transparent;
+      color: var(--gray);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    .dur-btn:hover, .dur-btn.active {
+      border-color: var(--burgundy);
+      color: var(--burgundy);
+    }
+    .circle {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 2px solid var(--burgundy);
+      margin: 1.5rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      transition: all 0.3s;
+    }
+    .circle.active {
+      border-color: var(--gold);
+      box-shadow: 0 0 30px rgba(201, 169, 110, 0.3);
+    }
+    .circle-label {
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--burgundy);
+    }
+    .time {
+      font-size: clamp(3.5rem, 8vw, 5rem);
+      font-weight: 300;
+      letter-spacing: 3px;
+      margin: 1.5rem 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .controls {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 0.8rem 2rem;
+      font-family: inherit;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: 1.5px solid var(--burgundy);
+      background: transparent;
+      color: var(--burgundy);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn:hover {
+      background: var(--burgundy);
+      color: var(--cream);
+    }
+    .btn.active {
+      background: var(--burgundy);
+      color: var(--cream);
+    }
+    .back {
+      margin-top: 2rem;
+      color: var(--gray);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .back:hover { color: var(--burgundy); }
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+    .breathing {
+      animation: breathe 4s ease-in-out infinite;
+    }
+    @media (max-width: 480px) {
+      .circle { width: 140px; height: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Stillseed Timer</h1>
+    <p class="subtitle">Return to the breath</p>
+
+    <div class="durations">
+      <button class="dur-btn active" data-mins="2">2 min</button>
+      <button class="dur-btn" data-mins="5">5 min</button>
+      <button class="dur-btn" data-mins="10">10 min</button>
+      <button class="dur-btn" data-mins="20">20 min</button>
+    </div>
+
+    <div class="circle" id="circle">
+      <span class="circle-label" id="label">Ready</span>
+    </div>
+
+    <div class="time" id="display">02:00</div>
+
+    <div class="controls">
+      <button class="btn" id="start">Begin</button>
+      <button class="btn" id="pause" style="display:none;">Pause</button>
+      <button class="btn" id="reset">Reset</button>
+      <button class="btn" id="testBell">Test Bell</button>
+    </div>
+
+    <a href="index.html" class="back">← Back to Stillseed</a>
+  </div>
+
+  <script>
+    let duration = 120, timeLeft = 120, interval = null, running = false, paused = false;
+    let audioCtx = null;
+
+    const display = document.getElementById('display');
+    const startBtn = document.getElementById('start');
+    const pauseBtn = document.getElementById('pause');
+    const resetBtn = document.getElementById('reset');
+    const testBellBtn = document.getElementById('testBell');
+    const circle = document.getElementById('circle');
+    const label = document.getElementById('label');
+
+    function format(t) {
+      const m = Math.floor(t / 60), s = t % 60;
+      return (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    function playBell() {
+      initAudio();
+      const t = audioCtx.currentTime;
+      const g = audioCtx.createGain();
+      g.connect(audioCtx.destination);
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.4, t + 0.05);
+      g.gain.exponentialRampToValueAtTime(0.001, t + 4);
+      [528, 1056, 1584].forEach(f => {
+        const o = audioCtx.createOscillator();
+        o.connect(g);
+        o.frequency.value = f;
+        o.type = 'sine';
+        o.start(t);
+        o.stop(t + 4);
+      });
+    }
+
+    function start() {
+      if (running) return;
+      running = true; paused = false;
+      startBtn.style.display = 'none';
+      pauseBtn.style.display = 'inline-block';
+      circle.classList.add('active', 'breathing');
+      label.textContent = 'Breathe';
+      interval = setInterval(() => {
+        timeLeft--;
+        display.textContent = format(timeLeft);
+        if (timeLeft <= 0) {
+          stop();
+          label.textContent = 'Complete';
+          circle.classList.remove('breathing');
+          playBell();
+        }
+      }, 1000);
+    }
+
+    function pause() {
+      if (!running || paused) return;
+      paused = true;
+      clearInterval(interval);
+      startBtn.style.display = 'inline-block';
+      startBtn.textContent = 'Resume';
+      pauseBtn.style.display = 'none';
+      circle.classList.remove('breathing');
+      label.textContent = 'Paused';
+    }
+
+    function stop() {
+      running = false; paused = false;
+      clearInterval(interval);
+      startBtn.style.display = 'inline-block';
+      startBtn.textContent = 'Begin';
+      pauseBtn.style.display = 'none';
+      circle.classList.remove('active', 'breathing');
+    }
+
+    function reset() {
+      stop();
+      timeLeft = duration;
+      display.textContent = format(timeLeft);
+      label.textContent = 'Ready';
+    }
+
+    document.querySelectorAll('.dur-btn').forEach(b => {
+      b.addEventListener('click', () => {
+        if (running) return;
+        document.querySelectorAll('.dur-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        duration = parseInt(b.dataset.mins) * 60;
+        timeLeft = duration;
+        display.textContent = format(timeLeft);
+      });
+    });
+
+    startBtn.addEventListener('click', () => { initAudio(); start(); });
+    pauseBtn.addEventListener('click', pause);
+    resetBtn.addEventListener('click', reset);
+    testBellBtn.addEventListener('click', () => { initAudio(); playBell(); label.textContent = 'Bell Test'; setTimeout(() => { if (!running) label.textContent = 'Ready'; }, 2000); });
+
+    display.textContent = format(timeLeft);
+  </script>
+
+</body>
+</html>
